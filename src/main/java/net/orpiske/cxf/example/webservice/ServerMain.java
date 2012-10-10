@@ -28,10 +28,6 @@ import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 public class ServerMain {
 	
-	public static URL getWSDL() {
-		return ServerMain.class.getResource("/wsdl/timeservice/TimeService.wsdl");
-	}
-	
 	public static void setupService() {
 		
 		
@@ -61,7 +57,6 @@ public class ServerMain {
 		/*
 		 * Sets the WSDL URL location
 		 */
-		//factory.setWsdlURL("file:" + getWSDL().getPath());
 		factory.setWsdlURL("classpath:/wsdl/timeservice/TimeService.wsdl");
 		factory.setServiceName(new QName("http://www.orpiske.net/examples/cxf/webservice",
 				"TimeService"));
