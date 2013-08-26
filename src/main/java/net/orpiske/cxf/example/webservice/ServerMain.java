@@ -1,4 +1,4 @@
-/** 
+/**
    Copyright 2012 Otavio Rodolfo Piske
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,11 +27,13 @@ import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 
 public class ServerMain {
-	
+	private static String ip = "localhost";
+	private static String port = "8080";
+
 	public static void setupService() {
-		
-		
-		
+
+
+
 		JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
 
 		/*
@@ -39,7 +41,7 @@ public class ServerMain {
 		 * you use to implement the service
 		 */
 		factory.setServiceClass(TimeService.class);
-		
+
 		/*
 		 * This is the service implementation. You create this class and it must
 		 * implement the "serviceClass" (which is an interface) we just set
@@ -47,32 +49,32 @@ public class ServerMain {
 		 */
 		TimeServiceImpl service = new TimeServiceImpl();
 		factory.setServiceBean(service);
-		
+
 		/*
 		 * The server address
 		 */
-		factory.setAddress("http://localhost:8080/TimeService");
-		
-	
+		factory.setAddress("http://" + ip + ":" + port + "/TimeService");
+
+
 		/*
 		 * Sets the WSDL URL location
 		 */
 		factory.setWsdlURL("classpath:/wsdl/timeservice/TimeService.wsdl");
 		factory.setServiceName(new QName("http://www.orpiske.net/examples/cxf/webservice",
 				"TimeService"));
-		
+
 		/*
 		 * Logging goods ...
 		 */
 		factory.getInInterceptors().add(new LoggingInInterceptor());
 		factory.getOutInterceptors().add(new LoggingOutInterceptor());
-		
-		
-		
+
+
+
 		/*
 		 * Create the service
 		 */
-		factory.create();	
+		factory.create();
 	}
 
 	/**
@@ -81,8 +83,17 @@ public class ServerMain {
 	public static void main(String[] args) {
 		System.out.println("Using alternate mode");
 
-		setupService();
+		if (args.length == 1) {
+			ip = args[0];
+		}
+		else {
+			if (args.length >= 2) {
+				ip = args[0];
+				port = args[1];
+			}
+		}
 
+		setupService();
 	}
 
 }
